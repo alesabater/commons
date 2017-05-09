@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>deloitte.ie.bigdata</groupId>
+    <artifactId>commons</artifactId>
+    <version>1.0</version>
+
+    <parent>
+        <groupId>deloitte.ie.bigdata</groupId>
+        <artifactId>spark-parent</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.decodified</groupId>
+            <artifactId>scala-ssh_2.10</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>DB</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-release</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+
+                <repository>
+                    <id>snapshots</id>
+                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-snapshot</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-release</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+
+                <pluginRepository>
+                    <id>snapshots</id>
+                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-snapshot</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </pluginRepository>
+            </pluginRepositories>
+            <distributionManagement>
+                <repository>
+                    <uniqueVersion>false</uniqueVersion>
+                    <id>central</id>
+                    <name>CI Artifactory</name>
+                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-release-local</url>
+                    <layout>default</layout>
+                </repository>
+
+                <snapshotRepository>
+                    <id>snapshots</id>
+                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-snapshot-local</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+
+</project>
