@@ -8,6 +8,27 @@
     <artifactId>commons</artifactId>
     <version>1.0</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <scala.version-major>2.10</scala.version-major>
+
+        <spark.version>1.6.0</spark.version>
+        <cdh.version>-cdh5.9.0</cdh.version>
+
+        <commons.version>3.0</commons.version>
+        <masking.version>3.0</masking.version>
+        <hadoop-testing-framework.version>3.1</hadoop-testing-framework.version>
+
+        <play.version>2.3.10</play.version>
+        <sbt.version>0.13.5</sbt.version>
+        <sbt-compiler.plugin.version>1.0.0-beta6</sbt-compiler.plugin.version>
+        <scoverage.plugin.version>1.1.1</scoverage.plugin.version>
+
+        <sonar.language>scala</sonar.language>
+        <sonar.scoverage.reportPath>target/scoverage.xml</sonar.scoverage.reportPath>
+    </properties>
+
     <parent>
         <groupId>deloitte.ie.bigdata</groupId>
         <artifactId>spark-parent</artifactId>
