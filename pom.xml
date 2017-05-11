@@ -8,32 +8,16 @@
     <artifactId>commons</artifactId>
     <version>1.0</version>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <scala.version-major>2.10</scala.version-major>
-
-        <spark.version>1.6.0</spark.version>
-        <cdh.version>-cdh5.9.0</cdh.version>
-
-        <commons.version>3.0</commons.version>
-        <masking.version>3.0</masking.version>
-        <hadoop-testing-framework.version>3.1</hadoop-testing-framework.version>
-
-        <play.version>2.3.10</play.version>
-        <sbt.version>0.13.5</sbt.version>
-        <sbt-compiler.plugin.version>1.0.0-beta6</sbt-compiler.plugin.version>
-        <scoverage.plugin.version>1.1.1</scoverage.plugin.version>
-
-        <sonar.language>scala</sonar.language>
-        <sonar.scoverage.reportPath>target/scoverage.xml</sonar.scoverage.reportPath>
-    </properties>
-
     <parent>
         <groupId>deloitte.ie.bigdata</groupId>
         <artifactId>spark-parent</artifactId>
         <version>1.0</version>
     </parent>
+
+    <properties>
+        <sonar.language>scala</sonar.language>
+        <sonar.scoverage.reportPath>target/scoverage.xml</sonar.scoverage.reportPath>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -49,190 +33,29 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>DB</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
-            <repositories>
-                <repository>
-                    <id>central</id>
-                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-release</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-
-                <repository>
-                    <id>snapshots</id>
-                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-snapshot</url>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                </repository>
-            </repositories>
-
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>central</id>
-                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-release</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </pluginRepository>
-
-                <pluginRepository>
-                    <id>snapshots</id>
-                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-snapshot</url>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                </pluginRepository>
-            </pluginRepositories>
-            <distributionManagement>
-                <repository>
-                    <uniqueVersion>false</uniqueVersion>
-                    <id>central</id>
-                    <name>CI Artifactory</name>
-                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-release-local</url>
-                    <layout>default</layout>
-                </repository>
-
-                <snapshotRepository>
-                    <id>snapshots</id>
-                    <url>http://ec2-34-252-219-19.eu-west-1.compute.amazonaws.com:8081/artifactory/libs-snapshot-local</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-    </profiles>
-
     <build>
-        <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
-        <testSourceDirectory>${basedir}/src/test/scala</testSourceDirectory>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <skipMain>true</skipMain>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
-
             <plugin>
                 <groupId>com.google.code.sbt-compiler-maven-plugin</groupId>
                 <artifactId>sbt-compiler-maven-plugin</artifactId>
-                <version>${sbt-compiler.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19</version>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.scalatest</groupId>
                 <artifactId>scalatest-maven-plugin</artifactId>
-                <version>1.0</version>
-                <configuration>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <junitxml>.</junitxml>
-                    <filereports>WDF_TestSuite.txt</filereports>
-                    <testFailureIgnore>false</testFailureIgnore>
-                    <argLine>-Xms1024m -Xmx1024m -XX:PermSize=1024m -XX:MaxPermSize=1024m</argLine>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.scoverage</groupId>
                 <artifactId>scoverage-maven-plugin</artifactId>
-                <version>${scoverage.plugin.version}</version>
-                <configuration>
-                    <aggregate>true</aggregate>
-                    <highlighting>true</highlighting>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <version>3.2.2</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>doc-jar</goal>
-                            <goal>add-source</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <args>
-                        <!-- requires graphviz to be available during build
-                         kept here for local build convenience only -->
-                        <!--<arg>-diagrams</arg>-->
-                        <arg>-implicits</arg>
-                        <arg>-expand-all-types</arg>
-                        <arg>-doc-root-content</arg>
-                        <arg>${basedir}/rootdoc.txt</arg>
-                    </args>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.4</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19</version>
-                    <configuration>
-                        <argLine>-Xmx512m -XX:MaxPermSize=1024m</argLine>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
     <reporting>
